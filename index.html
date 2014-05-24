@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html>
+  <head>
+  	<script type='text/javascript' src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
+  	<script type='text/javascript' src="http://maps.google.com/maps/api/js?sensor=false"></script>
+  	<script type='text/javascript' src="./js/jquery.tsv-0.96.min.js"></script>
+    <script type='text/javascript' src="./js/main.js"></script>
+    <title>Put Any Marker By TSV</title>
+  </head>
+  <body>
+  	<div id="input_container" style="width: 100%;">
+  		<label for="input_area">Excelからデータを貼り付け</label><br>
+  		<textarea id="address_data" name="input_area" cols="50" rows="10"></textarea>
+  		<input type="button" value="地図を生成する" onClick="submit();">
+  	</div>
+
+  	<hr>
+
+  	<div id="gmap_canvas" style="height: 640px;"></div>
+  	<div id="bottom"></div>
+  </body>
+</html>
