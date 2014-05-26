@@ -7,6 +7,8 @@ var setCreateMarkerArrayEvent = function(mapId, sourceId, callback, timeout) {
 			if (status == google.maps.GeocoderStatus.OK) {
 				var p = results[0].geometry.location;
 				markerArray.push({listId: tsv[idx][0], position: new google.maps.LatLng(p.lat(), p.lng())});
+			} else {
+				console.log(status);
 			}
 			responseCount++;
 		});
@@ -22,19 +24,23 @@ var setCreateMarkerArrayEvent = function(mapId, sourceId, callback, timeout) {
 
 	var geocoder = new google.maps.Geocoder();
 
+	requestCount = 0;
 	for (var i = 0; i < tsv.length; i++) {
-		setGeocodingEvent(geocoder, markerArray, tsv, i);
+		setTimeout(function() {
+			setGeocodingEvent(geocoder, markerArray, tsv, requestCount);
+			requestCount++;
+		}, 1000 * i);
 	}
 
 	var startTime = $.now();
-	var timerEvent = setInterval(function() {
+	var timerResponseEvent = setInterval(function() {
 		if (responseCount == tsv.length) {
 			callback(mapId, null, markerArray, true);
-			clearInterval(timerEvent);
+			clearInterval(timerResponseEvent);
 		}
 
 		if ($.now() - startTime > timeout) {
-			clearInterval(timerEvent);
+			clearInterval(timerResponseEvent);
 		}
 	}, 50);
 };
@@ -81,5 +87,5 @@ function submit() {
 }
 
 function initialize(mapId, sourceId) {
-	setCreateMarkerArrayEvent(mapId, sourceId, viewGoogleMap, 10000); // timeout: 10[s]
+	setCreateMarkerArrayEvent(mapId, sourceId, viewGoogleMap, 100000); // timeout: 10[s]
 };
